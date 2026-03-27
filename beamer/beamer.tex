@@ -1,0 +1,286 @@
+\documentclass[8pt,aspectratio=169,xcolor=dvipsnames, compress]{beamer}
+% option t pour coller les trucs en haut
+
+% Modules 
+\usepackage[greek,english,french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[subnum]{cases}
+\usepackage{mathtools}
+\usepackage{siunitx}
+\usepackage{color,xcolor}
+\usepackage{caption}
+\usepackage{datetime}
+\usepackage{lmodern}
+\usepackage{mwe,lipsum}
+\usepackage{csquotes}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usepackage[version=4]{mhchem}
+\usepackage{ragged2e}
+\usepackage{changepage}
+\usepackage{makecell}
+\usepackage{bbm}
+\usepackage{tablefootnote}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{nicematrix}
+\usepackage{bm}
+\usepackage{tikz}
+\usepackage{appendixnumberbeamer}
+
+\usetikzlibrary{fadings}
+\setcounter{MaxMatrixCols}{20}
+
+%Options graphiques
+\usetheme{Copenhagen}
+\usecolortheme{beaver}
+\beamertemplatenavigationsymbolsempty
+
+\usepackage[justification=centering]{caption}
+\captionsetup[figure]{labelformat=empty}
+\captionsetup[table]{labelformat=empty}
+
+\makeatletter
+    \newenvironment{withoutheadline}{
+        \setbeamertemplate{headline}[default]
+        \def\beamer@entrycode{\vspace*{-\headheight}}
+    }{}
+\makeatother
+
+% format numéro de diapositive : "1/3"
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+  \insertshorttitle\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber} 
+
+% format numéro de diapositive : "1"
+% \expandafter\def\expandafter\insertshorttitle\expandafter{%
+%   \insertshorttitle\hfill%
+%   \insertframenumber} 
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+% \useoutertheme{split} % Alternatively: miniframes, infolines, split
+\useoutertheme{miniframes}
+\useinnertheme{circles}
+
+\definecolor{CIRED_blue}{RGB}{6,100,110}
+\definecolor{CIRED_lightblue}{RGB}{139,186,191}
+\definecolor{CIRED_darkgrey}{RGB}{112,111,111}
+\definecolor{CIRED_lightgrey}{RGB}{178,177,177}
+
+\usecolortheme[named=CIRED_blue]{structure}
+\setbeamercolor{title}{fg=CIRED_blue, bg = CIRED_lightgrey!20}
+\setbeamercolor{frametitle}{fg=CIRED_blue,bg= white}
+\setbeamercolor{author in head/foot}{fg=CIRED_blue}
+\setbeamercolor{title in head/foot}{fg=CIRED_blue}
+\setbeamercolor{section in head/foot}{fg=CIRED_blue, bg = CIRED_lightgrey!20}
+\setbeamercolor{subsection in head/foot}{fg=CIRED_blue, bg = CIRED_lightgrey!20}
+\setbeamercolor{itemize item}{fg=CIRED_blue}
+\setbeamercolor{itemize subitem}{fg=CIRED_lightblue}
+\setbeamercolor{section number projected}{bg=CIRED_lightblue,fg=CIRED_blue}
+
+\DeclareSIUnit\year{yr}
+\DeclareSIUnit\ppmv{ppmv}
+\DeclareSIUnit\annee{an}
+\DeclareSIUnit\watthour{Wh}
+\DeclareSIUnit\hour{h}
+\DeclareSIUnit\hab{hab}
+\DeclareSIUnit\permille{\text{\textperthousand}}
+\DeclareSIUnit\tCOeq{t\ce{CO_2}éq}
+
+\sisetup{detect-all,
+         locale = FR, 
+         inter-unit-product={.}
+}
+    
+% Sommaire automatique
+ % \AtBeginSection[]
+ % {
+ %   \begin{frame}[plain]
+ %     \frametitle{Plan de présentation}
+ %     \tableofcontents[currentsection]
+ %   \end{frame}
+ % }
+
+%\setbeamertemplate{footnote}{%
+%  \parindent 0em\noindent%
+%  \raggedleft%\raggedright
+%  \usebeamercolor{footnote}\hbox to 0.8em{\hfil\insertfootnotemark}\insertfootnotetext\par%
+%}
+
+\renewcommand{\footnoterule}{%
+\kern -3pt
+\hrule width \textwidth height 0pt
+\kern 3pt
+}
+\newcommand{\CO}{\ce{CO_2}}
+\hypersetup{colorlinks,citecolor=CIRED_blue, linkcolor=CIRED_blue,urlcolor=CIRED_blue}
+
+% Options de biliographie 
+\usepackage[style=authoryear,giveninits=true,sorting=nty,maxcitenames=1]{biblatex}
+\DefineBibliographyExtras{french}{\restorecommand\mkbibnamefamily}
+
+\AtEveryBibitem{%
+  \clearlist{language}%
+  \clearlist{urldate}
+  \clearlist{url}
+  \clearfield{month}
+  \clearfield{day}
+}
+\DeclareFieldFormat{url}{}
+\DeclareFieldFormat{urldate}{}
+
+\DeclareFieldFormat{journaltitle}{\textit{#1}}
+\DeclareFieldFormat{title}{#1}
+
+\setlength\bibitemsep{\itemsep}
+\AtEveryCite{\color{CIRED_blue}}
+
+\addbibresource{bibliographie.bib}
+
+% All name in hyperlink (cite biblatex)
+\makeatletter
+\let\abx@macro@citeOrig\abx@macro@cite
+\renewbibmacro{cite}{%
+   \bibhyperref{%
+   \let\bibhyperref\relax\relax%
+   \abx@macro@citeOrig%
+   }%
+}
+\let\abx@macro@textciteOrig\abx@macro@textcite
+\renewbibmacro{textcite}{%
+   \bibhyperref{%
+   \let\bibhyperref\relax\relax%
+   \abx@macro@textciteOrig%
+   }%
+}%
+\makeatother
+
+% Options de format pour les unités (SIUnitX package)
+\sisetup{
+    detect-all,
+    locale                  = FR,
+    sticky-per,
+    inter-unit-product      = {.},
+    per-mode                = reciprocal-positive-first,
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shade title
+
+\setbeamertemplate{frametitle}{%
+  \vspace{4mm} {\bfseries \insertframetitle}
+}
+
+\setbeamertemplate{frametitle continuation}{(\insertcontinuationcount)}
+
+\newcommand\boldblue[1]{\textcolor{CIRED_blue}{\textbf{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Informations
+\newdate{date}{27}{03}{2026}
+\title[Titre court]{\textbf{Titre long}}
+\subtitle{Sous-titre}
+\author[Prénom Nom]{\href{mailto:prenom.nom@mail.fr}{Prénom Nom\inst{1}}}
+\date{\displaydate{date}}
+\institute{
+  \inst{1} CIRED -- ENPC, AgroParisTech, EHESS, Cirad, CNRS, Nogent-sur-Marne, France
+  }
+
+\titlegraphic{
+\vspace{2mm}
+\vfill
+  \includegraphics[height=1.5cm]{figures/logos/logo-enpc-ip-rvb.jpg}
+    \hfill
+    \includegraphics[height=1.35cm]{figures/logos/Logo_CIRED_excellente_qualite.pdf}
+}
+
+\setbeamerfont{caption}{size=\small}
+\renewcommand*{\bibfont}{\footnotesize}
+%––––––––––
+
+\begin{document}
+
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Titre de diapositive}
+  \lipsum[0-1]\footcite{lafargue_droit_1883}
+\end{frame}
+
+\section{Partie 1}
+
+\begin{frame}{Titre de diapositive}
+  \begin{columns}
+    \column{0.5\columnwidth}
+      \lipsum[2]
+    \column{0.5\columnwidth}
+      \begin{figure}
+        \centering 
+        \includegraphics[width=0.6\columnwidth]{figures/blank.png}
+        \caption{Titre de la figure}
+      \end{figure}
+  \end{columns}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Titre de diapositive}
+  \begin{block}{}
+    \lipsum[4]
+  \end{block}
+  \phantom{.}\\[0.1em]
+
+  \lipsum[5]
+\end{frame}
+
+
+\appendix
+
+\section{}
+\begin{frame}[plain]
+  % \centering
+  % \boldblue{\textit{Thanks for your attention!}}
+  \vspace{2cm}
+        \centering
+        \boldblue{\textit{Merci pour votre attention !}}
+
+        \vspace{2cm}
+        \small
+        \begin{tabular}{r|l}
+          Prénom Nom & Statut \\
+          & Laboratoire\\
+          & \href{mailto:prenom.nom@mail.fr}{prenom.nom@mail.fr}\\
+          & \href{tel:+33123456789}{01 23 45 67 89}
+        \end{tabular}
+\end{frame}
+
+
+  \section{Annexe 1}
+\begin{frame}{Titre de la diapositive}
+  
+\end{frame}
+
+  \section{Bibliographie}
+
+  \begin{frame}[allowframebreaks, t]{Bibliographie}
+    \setbeamertemplate{bibliography item}[triangle]
+    \printbibliography[heading=none]
+  \end{frame}
+
+
+
+
+\end{document}

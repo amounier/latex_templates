@@ -1,0 +1,193 @@
+\documentclass[a0paper,portrait]{baposter}
+
+\usepackage[english]{babel}
+\usepackage{wrapfig}
+\usepackage{lmodern}
+\usepackage{lipsum,graphicx}
+\usepackage[utf8]{inputenc} %unicode support
+\usepackage[T1]{fontenc}
+\usepackage{siunitx}
+\usepackage{mhchem}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{setspace}
+\usepackage{datetime}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[subnum]{cases}
+
+\setlist{nosep}
+
+\graphicspath{{figures/}} % Directory in which figures are stored
+
+\usepackage[style=numeric,giveninits=true, sorting=none]{biblatex}
+% \usepackage[style=authoryear,giveninits=true,sorting=nty,maxcitenames=1]{biblatex}
+\DefineBibliographyExtras{french}{\restorecommand\mkbibnamefamily}
+
+\AtEveryBibitem{%
+  \clearlist{language}%
+  \clearlist{urldate}
+  \clearlist{url}
+  \clearfield{month}
+  \clearfield{day}
+}
+\DeclareFieldFormat{url}{}
+\DeclareFieldFormat{urldate}{}
+
+\DeclareFieldFormat{journaltitle}{\textit{#1}}
+\DeclareFieldFormat{title}{#1}
+
+\setlength\bibitemsep{\itemsep}
+
+\addbibresource{bibliographie.bib}
+\renewcommand*{\bibfont}{\small{}}
+
+% All name in hyperlink (cite biblatex)
+\makeatletter
+\let\abx@macro@citeOrig\abx@macro@cite
+\renewbibmacro{cite}{%
+   \bibhyperref{%
+   \let\bibhyperref\relax\relax%
+   \abx@macro@citeOrig%
+   }%
+}
+\let\abx@macro@textciteOrig\abx@macro@textcite
+\renewbibmacro{textcite}{%
+   \bibhyperref{%
+   \let\bibhyperref\relax\relax%
+   \abx@macro@textciteOrig%
+   }%
+}%
+\makeatother
+
+% Options de format pour les unités (SIUnitX package)
+\sisetup{
+    detect-all,
+    locale                  = FR,
+    sticky-per,
+    inter-unit-product      = {.},
+    per-mode                = reciprocal-positive-first,
+}
+
+\selectcolormodel{cmyk}
+
+\newcommand{\compresslist}{%
+\setlength{\itemsep}{0pt}%
+\setlength{\parskip}{1pt}%
+\setlength{\parsep}{0pt}%
+}
+
+\newenvironment{boenumerate}
+  {\begin{enumerate}\renewcommand\labelenumi{\textbf\theenumi.}}
+  {\end{enumerate}}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\DeclareSIUnit\day{jour}
+\DeclareSIUnit\watthour{Wh}
+\DeclareSIUnit\year{an}
+\DeclareSIUnit\hab{hab}
+
+\begin{document}
+
+\definecolor{CIRED_blue}{RGB}{6,100,110}
+\definecolor{CIRED_lightblue}{RGB}{139,186,191}
+\definecolor{CIRED_darkgrey}{RGB}{112,111,111}
+\definecolor{CIRED_lightgrey}{RGB}{178,177,177}
+
+\begin{poster}
+{
+grid=false,
+columns=6,
+headerborder=open, % Adds a border around the header of content boxes
+colspacing=1em, % Column spacing
+bgColorOne=white, % Background color for the gradient on the left side of the poster
+bgColorTwo=white, % Background color for the gradient on the right side of the poster
+background=plain,
+borderColor=CIRED_blue, % Border color
+% borderColor=CIRED_blue,
+headerColorOne=CIRED_blue, % Background color for the header in the content boxes (left side)
+headerColorTwo=CIRED_blue, % Background color for the header in the content boxes (right side)
+headershade=plain,
+headerFontColor=white, % Text color for the header text in the content boxes
+boxColorOne=white, % Background color of the content boxes
+textborder=rounded, %rectangle, % Format of the border around content boxes, can be: none, bars, coils, triangles, rectangle, rounded, roundedsmall, roundedright or faded
+eyecatcher=false, % Set to false for ignoring the left logo in the title and move the title left
+headerheight=0.11\textheight, % Height of the header
+headershape=rounded, % Specify the rounded corner in the content box headers, can be: rectangle, small-rounded, roundedright, roundedleft or rounded
+headershade=plain,
+headerfont=\Large\textsf, % Large, bold and sans serif font in the headers of content boxes
+%textfont={\setlength{\parindent}{1.5em}}, % Uncomment for paragraph indentation
+linewidth=2pt, % Width of the border lines around content boxes
+}
+{}
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR NAME
+%----------------------------------------------------------------------------------------
+%
+{\vspace{5mm}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[height=2cm]{logos/logo-enpc-ip-rvb.jpg}
+\raisebox{1mm}{\includegraphics[height=1.8cm]{logos/Logo_CIRED_excellente_qualite.pdf}}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+\centering
+\textsf{
+    \LARGE{Prénom Nom} \normalsize{(penom.nom@mail.fr)}\\[1mm]
+    \normalsize{CIRED -- ENPC, AgroParisTech, EHESS, Cirad, CNRS}\\[1mm]
+    % \small{andre.mounier@enpc.fr}
+    }
+\end{minipage}\vspace{2mm}
+}
+{
+\begin{center}
+\vspace{-10mm}
+\resizebox{\textwidth}{!}{
+  \textsf{\textbf{\LARGE{Titre du poster, sur environ 90 caractères \phantom{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}}}}
+}
+\vspace{1mm}
+\end{center}
+}
+
+
+\headerbox{Contexte}{name=context,column=0, span=3}{
+\lipsum[0-1] \cite{lafargue_droit_1883}
+}
+
+\headerbox{Problématiques et objectifs}{name=questions,column=3, span=3, bottomaligned=context}{
+\lipsum[2] \cite{ademe_transitions_2021}
+}
+
+
+\headerbox{Illustration}{name=illustration,column=4,below=questions, span=2}{
+\includegraphics[width=\columnwidth]{blank.png}
+}
+
+\headerbox{Méthodologie}{name=methodology,column=0,below=questions, span=4, bottomaligned=illustration}{
+\lipsum[4-5]
+}
+
+\headerbox{Résultats (1)}{name=res1,column=0,below=illustration, span=2}{
+  \includegraphics[width=\columnwidth]{blank.png}
+}
+
+\headerbox{Résultats (2)}{name=res2,column=2,below=illustration, span=4, bottomaligned=res1}{
+\lipsum[6-7]
+}
+
+\headerbox{}{name=infos,column=0,span=6,below=res2,textborder=rectangle,borderColor=white, headershape=rectangle,boxheaderheight=0em}{
+  \printbibliography[title=Bibliographie]
+
+  \vspace{2.1cm}
+  \begin{center}
+     Prénom Nom -- Nom de l'événement --  Date de l'événement
+  \end{center} 
+}
+  
+\end{poster}
+\end{document}

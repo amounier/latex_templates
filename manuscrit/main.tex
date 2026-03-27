@@ -1,0 +1,234 @@
+% Book document class
+\documentclass[12pt,twoside,a4paper]{memoir}
+
+\usepackage[greek,english,french]{babel}
+\usepackage{mwe,lipsum}  
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{appendix} 
+\usepackage[utf8]{inputenc} 
+\usepackage{multicol} 
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{amsmath,amssymb,amsbsy} 
+\usepackage{todonotes} 
+\usepackage{mathtools} 
+\usepackage[a4paper]{geometry} 
+\usepackage{listings}
+\usepackage{color,xcolor}
+\usepackage{csquotes}
+\usepackage{textcomp}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{lato}
+\usepackage{titling}
+\usepackage{datetime}
+\usepackage[version=4]{mhchem}
+\usepackage{enumitem}
+\usepackage{pdfpages}
+\usepackage{stmaryrd}
+\usepackage{hyphenat}
+\usepackage{cases}
+\usepackage{bbm}
+\usepackage{empheq}
+\usepackage[printonlyused,withpage]{acronym}
+\usepackage{chngcntr}
+\usepackage{authblk}
+\usepackage[breakable,skins]{tcolorbox}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{nicematrix}
+\usepackage{bm}
+
+% Pouvoir faire de grandes matrices
+\setcounter{MaxMatrixCols}{20}
+
+
+% Police moderne
+\usepackage{lmodern}
+{\rmfamily} % force reading in the font description file so T1+lmr is declared
+\DeclareFontShape{T1}{lmr}{bx}{sc}{<-> ssub * cmr/bx/sc}{}
+\setlength{\parindent}{7mm}
+
+% Police d'écriture
+\renewcommand\familydefault{\sfdefault}
+
+% Définition de couleurs
+\definecolor{CIRED_blue}{RGB}{6,100,110}
+\definecolor{CIRED_lightblue}{RGB}{139,186,191}
+\definecolor{CIRED_darkgrey}{RGB}{112,111,111}
+\definecolor{CIRED_lightgrey}{RGB}{178,177,177}
+\usepackage[colorlinks=true,allcolors=black,citecolor=CIRED_blue]{hyperref}
+
+% Specify custom hyphenation 
+% \hyphenation{a-no-ma-lous a-no-ma-ly amounts breaches} 
+
+% Définition de la géométrie de la feuille, des marges
+\geometry{a4paper,total={170mm,257mm},left=20mm,top=20mm,}
+% ToC depth
+\maxsecnumdepth{subsubsection}
+\maxtocdepth{subsection}
+\setafterparaskip{1ex}
+
+% Espacement dans les listes
+\setitemize{itemsep=0pt}
+
+% Options de format pour les unités (SIUnitX package)
+\sisetup{
+    detect-all,
+    locale                  = FR,
+    sticky-per,
+    inter-unit-product      = {.},
+    per-mode                = reciprocal-positive-first,
+    separate-uncertainty    = true,
+    multi-part-units        = single,
+}
+
+\DeclareSIUnit\octet{o}
+\DeclareSIUnit\year{an}
+\DeclareSIUnit\years{ans}
+\DeclareSIUnit\jours{jours}
+\DeclareSIUnit\days{jours}
+\DeclareSIUnit\jour{jours}
+\DeclareSIUnit\years{ans}
+\DeclareSIUnit\watthour{Wh}
+\DeclareSIUnit\hab{hab}
+\DeclareSIUnit\cumac{Wh~cumac}
+\DeclareSIUnit\euro{€}
+\DeclareSIUnit\tCOeq{t\ce{CO_2}éq}
+\DeclareSIUnit\inhab{hab}
+\newcommand{\CO}{\ce{CO_2}}
+
+% Options de bibliographie
+\usepackage[style=authoryear,sorting=nty,maxcitenames=2]{biblatex}
+\DefineBibliographyExtras{french}{\restorecommand\mkbibnamefamily}
+
+\AtEveryBibitem{%
+  \clearlist{language}%
+  \clearlist{urldate}
+  \clearlist{url}
+  \clearfield{month}
+  \clearfield{day}
+  \clearfield{note}
+}
+\DeclareFieldFormat{url}{}
+\DeclareFieldFormat{urldate}{}
+
+\DeclareFieldFormat{journaltitle}{\textit{#1}}
+\DeclareFieldFormat{title}{#1}
+
+\setlength\bibitemsep{\itemsep}
+\AtEveryCite{\color{CIRED_blue}}
+
+\addbibresource{bibliographie.bib}
+
+% All name in hyperlink (cite biblatex)
+\makeatletter
+\let\abx@macro@citeOrig\abx@macro@cite
+\renewbibmacro{cite}{%
+   \bibhyperref{%
+   \let\bibhyperref\relax\relax%
+   \abx@macro@citeOrig%
+   }%
+}
+\let\abx@macro@textciteOrig\abx@macro@textcite
+\renewbibmacro{textcite}{%
+   \bibhyperref{%
+   \let\bibhyperref\relax\relax%
+   \abx@macro@textciteOrig%
+   }%
+}%
+\makeatother
+
+% Passage des mots table et figure dans les lien hypertextes
+\makeatletter
+\renewcommand\p@table{Table~\@ }
+\renewcommand\p@figure{Figure~\@ }
+\makeatother
+
+% Suppression des majuscules automatiques
+\let\MakeUppercase\relax
+\nouppercaseheads
+
+% Autres commandes
+\newcommand{\mail}[1]{\href{mailto:#1}{#1}}
+\renewcommand{\listfigurename}{Liste des figures}
+
+% Définition des annexes par chapitre
+\newcounter{chapappendix}
+\renewcommand{\thechapappendix}{\thechapter.\Alph{chapappendix}}
+\newcommand{\chapterappendix}[1]{
+  \refstepcounter{chapappendix}
+  \section*{\thechapappendix\hspace{1ex} #1}
+  \addcontentsline{toc}{section}{\thechapappendix\hspace{1ex} #1}
+}
+\counterwithin*{chapappendix}{chapter}
+\newcommand\thesubsectionappendix{\arabic{subsection}}
+\newcounter{chapappendixsection}
+\renewcommand{\thechapappendixsection}{\thechapter.\Alph{chapappendix}.\thesubsectionappendix}
+\newcommand{\chapterappendixsection}[1]{
+  \refstepcounter{chapappendixsection}
+  \subsection*{\thechapappendixsection\hspace{1ex} #1}
+  \addcontentsline{toc}{subsection}{\thechapappendix.\thesubsectionappendix\hspace{1ex} #1}
+  \addtocounter{subsection}{1}
+}
+\makepagestyle{chapterappendixstyle}
+
+
+%-------------------------------------------------------------------------------------------------------------
+% Informations
+\title{Titre}
+\author[1,2,3]{\href{mailto:penom.nom@mail.com}{Prénom Nom}}
+\affil[1]{\small{Tutelle 1}}
+\affil[2]{\small{Tutelle 2}}
+\affil[3]{\small{Tutelle 3}}
+\date{Version du \today}
+
+\begin{document}
+
+\frontmatter
+
+\begin{titlingpage}
+\maketitle % Print the title page
+\end{titlingpage}
+
+% Pages liminaires
+\include{laboratoires}
+\include{remerciements}
+\include{conventions}
+\include{resumes}
+
+\mainmatter
+
+\tableofcontents
+
+
+
+\include{introduction}
+\include{chapitre_1}
+\include{chapitre_2}
+\include{conclusion}
+
+
+\include{annexes}
+
+\include{acronymes}
+
+\clearpage 
+\renewcommand{\listfigurename}{Liste des figures}
+{
+    \small
+    \listoffigures
+}
+
+\clearpage 
+{
+    \small
+    \listoftables
+}
+
+
+\printbibliography 
+
+\end{document}
